@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\source\\codeworks\\csharp\\CmdAdventure\\burgercats\\burgercats.csproj",
+      "projectUniqueName": "C:\\source\\codeworks\\csharp\\burgercats\\burgercats.csproj",
       "projectName": "burgercats",
-      "projectPath": "C:\\source\\codeworks\\csharp\\CmdAdventure\\burgercats\\burgercats.csproj",
+      "projectPath": "C:\\source\\codeworks\\csharp\\burgercats\\burgercats.csproj",
       "packagesPath": "C:\\Users\\Timbo\\.nuget\\packages\\",
-      "outputPath": "C:\\source\\codeworks\\csharp\\CmdAdventure\\burgercats\\obj\\",
+      "outputPath": "C:\\source\\codeworks\\csharp\\burgercats\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
