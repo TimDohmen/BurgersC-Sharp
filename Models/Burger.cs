@@ -5,13 +5,8 @@ namespace burgercats.Models
 {
   public class Burger
   {
-    public Burger()
-    {
-      this.Id = String.Join("", Guid.NewGuid().ToString().Split('-'));
-    }
     public Burger(string name, string description, double price)
     {
-      this.Id = String.Join("", Guid.NewGuid().ToString().Split('-'));
       this.Name = name;
       this.Description = description;
       this.Price = price;
