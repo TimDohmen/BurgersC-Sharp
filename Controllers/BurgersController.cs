@@ -34,12 +34,13 @@ namespace burgercats.Controllers
     }
 
     [HttpPost]
-    public ActionResult<Burger> Post([FromBody]Burger Burger)
+    public ActionResult<Burger> Post([FromBody]Burger newBurger)
     {
       try
       {
-        Burger.Id = Guid.NewGuid().ToString();
-
+        newBurger.Id = Guid.NewGuid().ToString();
+        Burgers.Add(newBurger);
+        return Ok(newBurger);
       }
       catch (System.Exception e)
       {
@@ -47,6 +48,25 @@ namespace burgercats.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    [HttpPut("{id}")]
+    public ActionResult<Burger> Edit(string id, [FromBody]Burger newBurgerData)
+    {
+      try
+      {
+        Burger burgertoEdit = Burgers.Find(burger => burger.Id == id);
+        if (burgertoEdit == null) { throw new Exception("invalid id"); }
+        burgertoEdit.Name = newBurgerData.Name;
+        burgertoEdit.Description = newBurgerData.Description;
+
+        return Ok(burgertoEdit);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
 
   }
 
