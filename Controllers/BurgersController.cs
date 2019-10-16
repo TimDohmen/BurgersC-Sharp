@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using burgercats.db;
 using burgercats.Models;
+using burgercats.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace burgercats.Controllers
@@ -10,12 +10,23 @@ namespace burgercats.Controllers
   [Route("api/[Controller]")]
   public class BurgersController : ControllerBase
   {
-    public List<Burger> Burgers { get; set; } = fakeDB.Burgers;
+    private readonly BurgersService _bs;
+    public BurgersController(BurgersService bs)
+    {
+      _bs = bs;
+    }
 
     [HttpGet]
     public ActionResult<IEnumerable<Burger>> Get()
     {
-      return Ok(Burgers);
+      try
+      {
+        return Ok(_bs.Get());
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      };
     }
 
     [HttpGet("{id}")]
@@ -23,9 +34,7 @@ namespace burgercats.Controllers
     {
       try
       {
-        Burger b = Burgers.Find(b => b.Id == id);
-        if (b == null) { throw new Exception("Invalid Id"); }
-        return Ok(b);
+        return Ok(_bs.Get(id));
       }
       catch (System.Exception e)
       {
@@ -38,35 +47,40 @@ namespace burgercats.Controllers
     {
       try
       {
-        newBurger.Id = Guid.NewGuid().ToString();
-        Burgers.Add(newBurger);
-        return Ok(newBurger);
+        return Ok(_bs.Create(newBurger));
       }
-      catch (System.Exception e)
+      catch (Exception e)
       {
-
         return BadRequest(e.Message);
       }
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Burger> Edit(string id, [FromBody]Burger newBurgerData)
+    public ActionResult<Burger> Edit(string id, [FromBody]Burger editBurgerData)
     {
       try
       {
-        Burger burgertoEdit = Burgers.Find(burger => burger.Id == id);
-        if (burgertoEdit == null) { throw new Exception("invalid id"); }
-        burgertoEdit.Name = newBurgerData.Name;
-        burgertoEdit.Description = newBurgerData.Description;
-
-        return Ok(burgertoEdit);
+        editBurgerData.Id = id;
+        return Ok(_bs.Edit(editBurgerData));
       }
-      catch (System.Exception e)
+      catch (Exception e)
       {
         return BadRequest(e.Message);
       }
     }
 
+    [HttpDelete("{id}")]
+    public ActionResult<string> Delete(string id)
+    {
+      try
+      {
+        return Ok(_bs.Delete(id));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
   }
 
